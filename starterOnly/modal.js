@@ -58,8 +58,27 @@ const regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))
 const regexDate = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
 
 // Vérification des valeurs
-sendButton.addEventListener('click', validationFirstname);
+sendButton.addEventListener('click', formValid);
 
+
+// Validation globale
+function formValid(e) {
+  e.preventDefault();
+  validationFirstname();
+  validationName();
+  validationMail();
+  validationBirth();
+  validationTournament();
+  validationLocalisation();
+
+  if (valid) {
+    thanks.style.display = "block";
+    form.style.display = "none"
+  } else {
+    thanks.style.display = "none";
+    form.style.display = "block"
+  }
+}
 
 // Prénom
 function validationFirstname() {
@@ -106,6 +125,7 @@ function validationBirth() {
   } else {
     dateError.style.display= "block";
     valid = false
+    console.log('erreur date')
   }
 }
 
@@ -117,6 +137,7 @@ function validationTournament() {
   } else {
     tournamentError.style.display = "none";
     valid = false
+    console.log('erreur nbr tournois')
   }
 }
 
@@ -136,28 +157,12 @@ function validationLocalisation() {
   } else {
     localisationError.style.display = "block"
     valid = false
+    console.log('erreur localisation')
   }
 };
 
 
-// Validation globale
-function formValid(e) {
-  e.preventDefault();
-  validationFirstname();
-  validationName();
-  validationMail();
-  validationBirth();
-  validationTournament();
-  validationLocalisation();
 
-  if (valid) {
-    thanks.style.display = "block";
-    form.style.display = "none"
-  } else {
-    thanks.style.display = "none";
-    form.style.display = "block"
-  }
-}
 
 
 // const thanks = document.querySelector(".thanks");
