@@ -58,7 +58,11 @@ const regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))
 const regexDate = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
 
 // Vérification des valeurs
-sendButton.addEventListener('click', formValid);
+document.querySelector('.text-control').addEventListener('input', isFormValid);
+
+function isFormValid(){
+  validationFirstname();
+}
 
 
 // Validation globale
@@ -84,14 +88,11 @@ function formValid(e) {
 
 // Prénom
 function validationFirstname() {
-  if (firstName === "" || firstName.lenght < 2) {
-    firstNameError.style.border = "1px solid red"
-    firstNameError.style.display = "block"
-    valid = false;
-    console.log('erreur first')
+  if (firstName.value.length < 2) {
+    //retirer les espaces
+    firstName.parentElement.setAttribute("data-error-visible", "true");
   } else {
-    firstNameError.style.display= "none";
-    valid = true
+    firstName.parentElement.setAttribute("data-error-visible", "false");
   }
 };
 
