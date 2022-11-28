@@ -71,9 +71,11 @@ function formValid(e) {
   validationTournament();
   validationLocalisation();
 
-  if (valid) {
+  if (valid = true) {
     thanks.style.display = "block";
     form.style.display = "none"
+    sendButton.style.opacity = "100%"
+    sendButton.style.cursor = 'pointer'
   } else {
     thanks.style.display = "none";
     form.style.display = "block"
