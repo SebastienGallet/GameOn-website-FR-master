@@ -19,6 +19,8 @@ const mail = document.querySelector('#email');
 const birthDate = document.querySelector('#birthdate');
 const tournamentQuantity = document.querySelector('#quantity');
 const localisationChoice = document.querySelector('.checkbox-input');
+const locations = document.querySelector('#locations');
+const checkCond = document.querySelector('#checkbox1');
 const thanks = document.querySelector(".thanks");
 const regexName = /^[a-zA-ZéèîïÉÊÈÍÎÌÏ][a-zéèêëçïî]+([-'\s][a-zA-ZéèîïÉÊÈÍÎÌÏ][a-zéèêëçïî]+)?/;
 const regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -50,8 +52,9 @@ function validate(){
     checkLastName() &&
     checkMail() &&
     checkBirth() &&
-    checkTournament() === true
-   // checkLocalisation()
+    checkTournament() &&
+    checkLocalisation() &&
+    checkCondUtilisation() === true
     ) {
     showSendButton();
     return true;
@@ -137,16 +140,47 @@ function checkTournament() {
   }
 }
 
-//Choix d'un lieu
-/*function checkLocalisation() {
-  localisationChoice.setAttribute("data-error-visible", "true");
+
+//Choix du lieu du tournoi
+function checkLocalisation() {
+  let valid = false;
+  let x = document.reserve.location;
+  for(let i=0;i<x.length;i++) {
+    if(x[i].checked) {
+      valid = true;
+      break
+    }
+  }
+  if(valid) {
+    locations.setAttribute("data-error-visible", "false");
+    return true
+  } else {
+    locations.setAttribute("data-error-visible", "true");
+    return false;
+  }
+}
+
+// Cocher les conditions d'utilisation
+function checkCondUtilisation() {
+  if (checkCond.checked === true) {
+    checkCond.parentElement.setAttribute('data-error-visible', 'false')
+    return true
+  } else {
+    checkCond.parentElement.setAttribute('data-error-visible', 'true')
+    return false
+  }
+}
+
+
+//Choix du lieu du tournoi
+/*localisationChoice.addEventListener ('change', checkLocalisation)
+function checkLocalisation() {
   for (let i = 0; i < localisationChoice.lenght; i++) {
     if (localisationChoice[i].checked) {
-      localisationChoice.parentElement.setAttribute("data-error-visible", "false");
+      locations.setAttribute("data-error-visible", "false");
       return true
     }
   }
+  locations.setAttribute("data-error-visible", "true");
   return false
 };*/
-
-
