@@ -10,7 +10,6 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
 const form = document.querySelector('form');
 const sendButton = document.querySelector('.btn-submit');
 const firstName = document.querySelector('#first');
@@ -22,7 +21,6 @@ const localisationChoice = document.querySelector('.checkbox-input');
 const locations = document.querySelector('#locations');
 const checkCond = document.querySelector('#checkbox1');
 const thanks = document.querySelector(".thanks");
-const regexName = /^[a-zA-ZéèîïÉÊÈÍÎÌÏ][a-zéèêëçïî]+([-'\s][a-zA-ZéèîïÉÊÈÍÎÌÏ][a-zéèêëçïî]+)?/;
 const regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const regexDate = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
 const closeModal = document.querySelector(".close");
@@ -45,40 +43,6 @@ closeModal.addEventListener('click', function() {
 //-----------------------------------------------------
 //  Vérification
 //-----------------------------------------------------
-
-function validate(){
-  if (
-    checkFirstName() &&
-    checkLastName() &&
-    checkMail() &&
-    checkBirth() &&
-    checkTournament() &&
-    checkLocalisation() &&
-    checkCondUtilisation() === true
-    ) {
-    showSendButton();
-    return true;
-  }
-  return false
-}
-
-document.querySelector('.text-control').addEventListener('input', showSendButton)
-function showSendButton() {
-  sendButton.style.opacity = "1";
-  sendButton.style.cursor= "pointer"
-}
-
-sendButton.addEventListener('click', function(e) {
-  e.preventDefault();
-  if(validate() === true) {
-    showValidationMessage()
-  }
-})
-
-function showValidationMessage() {
-  form.style.display = "none";
-  thanks.style.display = "block"
-}
 
 // Prénom
 firstName.addEventListener('input', checkFirstName)
@@ -140,7 +104,6 @@ function checkTournament() {
   }
 }
 
-
 //Choix du lieu du tournoi
 function checkLocalisation() {
   let valid = false;
@@ -170,6 +133,41 @@ function checkCondUtilisation() {
     return false
   }
 }
+
+//Afficher bouton send
+function showSendButton() {
+  sendButton.style.opacity = "1";
+  sendButton.style.cursor= "pointer"
+}
+
+//Message de validation
+function showValidationMessage() {
+  form.style.display = "none";
+  thanks.style.display = "block"
+}
+
+//Validation
+function validate(){
+  if (
+    checkFirstName() &&
+    checkLastName() &&
+    checkMail() &&
+    checkBirth() &&
+    checkTournament() &&
+    checkLocalisation() &&
+    checkCondUtilisation() === true
+    ) {
+    showSendButton();
+    return true;
+  }
+  return false
+}
+
+
+
+
+
+
 
 
 //Choix du lieu du tournoi
