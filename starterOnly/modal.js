@@ -54,17 +54,17 @@ cguCheckbox.addEventListener('change', checkCond);
 
 //Fonctions de validations
 function checkBirth() {
-  if (isBirthDateValid()) {
-    hideError(birthDate);
-  } else {
+  if (!isBirthDateValid()) {
     showError(birthDate);
+  } else {
+    hideError(birthDate);
   }
 }
 function checkCond(){
-  if (isCondCheckValid()) {
-    hideError(cguCheckbox);
-  } else {
+  if (!isCondCheckValid()) {
     showError(cguCheckbox);
+  } else {
+    hideError(cguCheckbox);
   }
 }
 function checkFirstName() {
@@ -115,9 +115,8 @@ function hideError(element) {
 function isBirthDateValid() {
   if (birthDate.value.match(regexDate)) {
     return true
-  } else {
-    return false
   }
+  return false
 };
 function isCondCheckValid() {
   if (cguCheckbox.checked === true) {
@@ -128,15 +127,11 @@ function isCondCheckValid() {
 function isFirstNameValid() {
   if (firstName.value.length > 2) {
     return true
-  } else {
-    return false
   }
 };
 function isLastNameValid() {
   if (lastName.value.length > 2) {
     return true
-  } else {
-    return false
   }
 };
 function isLocationValid() {
