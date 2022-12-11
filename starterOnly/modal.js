@@ -19,7 +19,7 @@ const birthDate = document.querySelector('#birthdate');
 const tournamentQuantity = document.querySelector('#quantity');
 const localisationChoice = document.querySelector('.checkbox-input');
 const locations = document.querySelector('#locations');
-const checkCond = document.querySelector('#checkbox1');
+const cguCheckbox = document.querySelector('#checkbox1');
 const thanks = document.querySelector(".thanks");
 const regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const regexDate = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
@@ -43,69 +43,103 @@ closeModal.addEventListener('click', function() {
 //-----------------------------------------------------
 //  Vérification
 //-----------------------------------------------------
-
-// Prénom
 firstName.addEventListener('input', checkFirstName)
-function checkFirstName() {
-  //retirer les espace
-  if (firstName.value.length < 2) {
-    firstName.parentElement.setAttribute("data-error-visible", "true");
-    return false
-  } else {
-    firstName.parentElement.setAttribute("data-error-visible", "false");
-    return true
-  }
-};
-
-//Nom
 lastName.addEventListener('input', checkLastName)
-function checkLastName() {
-  if (lastName.value.length < 2) {
-    lastName.parentElement.setAttribute("data-error-visible", "true");
-    return false
+mail.addEventListener('input', checkMail)
+birthDate.addEventListener('input', checkBirth)
+tournamentQuantity.addEventListener('input', checkTournament)
+locations.addEventListener('change', isLocationValid)
+form.addEventListener('input', validate)
+cguCheckbox.addEventListener('change', checkCond);
+
+//Fonctions de validations
+function checkBirth() {
+  if (isBirthDateValid()) {
+    hideError(birthDate);
   } else {
-    lastName.parentElement.setAttribute("data-error-visible", "false");
-    return true
+    showError(birthDate);
+  }
+}
+function checkCond(){
+  if (isCondCheckValid()) {
+    hideError(cguCheckbox);
+  } else {
+    showError(cguCheckbox);
+  }
+}
+function checkFirstName() {
+  if (!isFirstNameValid()) {
+    showError(firstName)
+  } else {
+    hideError(firstName);
   }
 };
-
-//Email
-mail.addEventListener('input', checkMail)
+function checkLastName() {
+  if (!isLastNameValid()) {
+    showError(lastName);
+  } else {
+    hideError(lastName);
+  }
+};
 function checkMail() {
-  if (mail.value.match(regexMail)) {
-    mail.parentElement.setAttribute("data-error-visible", "false");
-    return true
+  if (isMailValid()) {
+    hideError(mail);
   } else {
-    mail.parentElement.setAttribute("data-error-visible", "true");
-    return false
+    showError(mail);
   }
-}
-
-//Date de naissance
-function checkBirth() {
-  if (birthDate.value.match(regexDate)) {
-    birthDate.parentElement.setAttribute("data-error-visible", "false");
-    return true
-  } else {
-    birthDate.parentElement.setAttribute("data-error-visible", "true");
-    return false
-  }
-}
-
-//Nombre de participations
-tournamentQuantity.addEventListener('input', checkTournament)
+};
 function checkTournament() {
-  if (tournamentQuantity.value >= 0 && tournamentQuantity.value < 100 && tournamentQuantity.value !== '') {
-    tournamentQuantity.parentElement.setAttribute("data-error-visible", "false");
-    return true
+  if (!isTournamentValid()) {
+    showError(tournamentQuantity);
   } else {
-    tournamentQuantity.parentElement.setAttribute("data-error-visible", "true");
-    return false
+    hideError(tournamentQuantity);
   }
 }
 
-//Choix du lieu du tournoi
-function checkLocalisation() {
+//Apparaitre ou non le bouton
+function disableSendButton() {
+  sendButton.style.opacity = 0.3;
+  sendButton.style.cursor= "not-allowed"
+}
+function enableSendButton() {
+  sendButton.style.opacity = "1";
+  sendButton.style.cursor= "pointer"
+}
+
+//Masquer l'erreur
+function hideError(element) {
+  return (element.parentElement.setAttribute("data-error-visible", "false"))
+}
+
+//Fonctions de vérifications
+function isBirthDateValid() {
+  if (birthDate.value.match(regexDate)) {
+    return true
+  } else {
+    return false
+  }
+};
+function isCondCheckValid() {
+  if (cguCheckbox.checked === true) {
+    return true;
+  } 
+  return false;
+}
+function isFirstNameValid() {
+  if (firstName.value.length > 2) {
+    return true
+  } else {
+    return false
+  }
+};
+function isLastNameValid() {
+  if (lastName.value.length > 2) {
+    return true
+  } else {
+    return false
+  }
+};
+function isLocationValid() {
   let valid = false;
   let x = document.reserve.location;
   for(let i=0;i<x.length;i++) {
@@ -122,22 +156,20 @@ function checkLocalisation() {
     return false;
   }
 }
-
-// Cocher les conditions d'utilisation
-function checkCondUtilisation() {
-  if (checkCond.checked === true) {
-    checkCond.parentElement.setAttribute('data-error-visible', 'false')
+function isMailValid() {
+  if (mail.value.match(regexMail)) {
     return true
-  } else {
-    checkCond.parentElement.setAttribute('data-error-visible', 'true')
-    return false
-  }
+  } 
+};
+function isTournamentValid() {
+  if (tournamentQuantity.value >= 0 && tournamentQuantity.value < 100 && tournamentQuantity.value !== '') {
+    return true
+  } 
 }
 
-//Afficher bouton send
-function showSendButton() {
-  sendButton.style.opacity = "1";
-  sendButton.style.cursor= "pointer"
+//Afficher l'erreur
+function showError(element) {
+  return (element.parentElement.setAttribute("data-error-visible", "true"))
 }
 
 //Message de validation
@@ -146,39 +178,27 @@ function showValidationMessage() {
   thanks.style.display = "block"
 }
 
-//Validation
 function validate(){
   if (
-    checkFirstName() &&
-    checkLastName() &&
-    checkMail() &&
-    checkBirth() &&
-    checkTournament() &&
-    checkLocalisation() &&
-    checkCondUtilisation() === true
-    ) {
-    showSendButton();
+    isFirstNameValid() &&
+    isLastNameValid() &&
+    isMailValid() &&
+    isBirthDateValid() &&
+    isTournamentValid() &&
+    isLocationValid() &&
+    isCondCheckValid()
+    ) { 
+    enableSendButton()
     return true;
   }
+  disableSendButton()
   return false
 }
 
-
-
-
-
-
-
-
-//Choix du lieu du tournoi
-/*localisationChoice.addEventListener ('change', checkLocalisation)
-function checkLocalisation() {
-  for (let i = 0; i < localisationChoice.lenght; i++) {
-    if (localisationChoice[i].checked) {
-      locations.setAttribute("data-error-visible", "false");
-      return true
-    }
+//Afficher le message de validation
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  if (validate() === true) {
+    showValidationMessage();
   }
-  locations.setAttribute("data-error-visible", "true");
-  return false
-};*/
+});
