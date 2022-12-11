@@ -170,7 +170,7 @@ function showError(element) {
 //Message de validation
 function showValidationMessage() {
   form.style.display = "none";
-  thanks.style.display = "block"
+  thanks.style.display = "flex"
 }
 
 function validate(){
