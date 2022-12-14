@@ -23,6 +23,7 @@ const cguCheckbox = document.querySelector('#checkbox1');
 const thanks = document.querySelector(".thanks");
 const regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const regexDate = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+const regexName = /^[A-Z][A-Za-z\é\è\ê\î\ï\ë\ô\ö\û\ü-]+$/
 const closeModal = document.querySelector(".close");
 
 // launch modal event
@@ -125,12 +126,12 @@ function isCondCheckValid() {
   return false;
 }
 function isFirstNameValid() {
-  if (firstName.value.length > 2) {
+  if (firstName.value.length >= 2 && firstName.value.match(regexName)) {
     return true
   }
 };
 function isLastNameValid() {
-  if (lastName.value.length > 2) {
+  if (lastName.value.length >= 2 && lastName.value.match(regexName)) {
     return true
   }
 };
